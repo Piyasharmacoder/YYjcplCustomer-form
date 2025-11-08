@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>CUSTOMER FORM</title>
+
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <!-- FontAwesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+  <!-- SweetAlert2 -->
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <!-- EmailJS -->
+  <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
+
+  <!-- Local CSS -->
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <div class="container">
+    <h1>CUSTOMER FORM</h1>
+
+    <form id="customerForm">
+      <!-- Customer Details -->
+      <div class="form-section">
+        <div class="section-title"><i class="fas fa-user"></i> CUSTOMER DETAILS</div>
+        <div class="form-grid">
+          <div class="form-group"><label><i class="fas fa-user"></i> Name</label><input type="text" name="name" required /></div>
+          <div class="form-group"><label><i class="fas fa-envelope"></i> Email</label><input type="email" name="email" required /></div>
+          <div class="form-group"><label><i class="fas fa-phone"></i> Phone Number</label><input type="tel" name="phone" required /></div>
+          <div class="form-group full-width"><label><i class="fas fa-home"></i> Address</label><textarea name="address" rows="3" required></textarea></div>
+        </div>
+      </div>
+
+      <!-- Customer Queries -->
+      <div class="form-section">
+        <div class="section-title"><i class="fas fa-question-circle"></i> CUSTOMER QUERIES</div>
+        <div class="form-grid">
+          <div class="form-group"><label><i class="fas fa-briefcase"></i> Required Profile</label><input type="text" name="profile" required /></div>
+          <div class="form-group"><label><i class="fas fa-map-marker-alt"></i> Required Location</label><input type="text" name="location" required /></div>
+          <div class="form-group"><label><i class="fas fa-rupee-sign"></i> Expected Salary</label><input type="text" name="salary" placeholder="e.g. 5 LPA" required /></div>
+          <div class="form-group">
+            <label><i class="fas fa-graduation-cap"></i> Experience</label>
+            <select name="experience" required>
+              <option value="" disabled selected>Select Experience</option>
+              <option>Fresher</option>
+              <option>0-1 Year</option>
+              <option>1-3 Years</option>
+              <option>3-5 Years</option>
+              <option>5+ Years</option>
+            </select>
+          </div>
+          <div class="form-group full-width">
+            <label><i class="fas fa-file-upload"></i> Upload Resume</label>
+            <div class="file-input-wrapper">
+              <input type="file" id="resume" name="resume" accept=".pdf,.doc,.docx,image/*" />
+              <div class="file-input-button"><i class="fas fa-cloud-upload-alt"></i> Choose File (PDF/DOC/Image)</div>
+            </div>
+            <div class="file-name" id="fileName"></div>
+            <div id="filePreview" class="preview-container" style="display: none;">
+              <img id="previewImg" src="" alt="Preview" />
+              <div id="fileIconPreview"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <button type="submit" class="submit-btn" id="submitBtn">
+        Submit Form <span class="loader" id="loader"></span>
+      </button>
+    </form>
+  </div>
+
+  <!-- PDF.js (Load BEFORE script.js) -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/4.0.379/pdf.min.js"></script>
+<script>
+  // Worker setup - CRITICAL!
+  if (typeof pdfjsLib !== 'undefined') {
+    pdfjsLib.GlobalWorkerOptions.workerSrc = 
+      'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/4.0.379/pdf.worker.min.js';
+  }
+</script>
+
+  <!-- Local JS (Load LAST) -->
+  <script src="script.js"></script>
+</body>
+</html>

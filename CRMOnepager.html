@@ -1,0 +1,633 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Smart School CRM</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #f5f7fa 0%, #e8f5e9 100%);
+            padding: 30px;
+        }
+        
+        .page {
+            width: 210mm;
+            min-height: 297mm;
+            background: white;
+            margin: 0 auto;
+            padding: 20mm;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+            border-radius: 8px;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .page::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 6px;
+            background: linear-gradient(90deg, #2c5f44 0%, #4a9d6f 50%, #66bb8a 100%);
+        }
+        
+        .header {
+            text-align: center;
+            margin-bottom: 24px;
+            padding: 20px;
+            background: linear-gradient(135deg, #f0f8f4 0%, #e8f5ed 100%);
+            border-radius: 12px;
+            position: relative;
+            box-shadow: 0 2px 8px rgba(74, 157, 111, 0.1);
+        }
+        
+        .header::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 60px;
+            height: 3px;
+            background: #4a9d6f;
+            border-radius: 2px;
+        }
+        
+        .header h1 {
+            font-size: 32px;
+            color: #2c5f44;
+            font-weight: 700;
+            letter-spacing: 2px;
+            margin-bottom: 8px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.05);
+        }
+        
+        .header h2 {
+            font-size: 16px;
+            color: #555;
+            font-weight: 400;
+            margin-bottom: 4px;
+        }
+        
+        .header p {
+            font-size: 12px;
+            color: #777;
+            font-weight: 300;
+            font-style: italic;
+        }
+        
+        .section {
+            margin-bottom: 20px;
+        }
+        
+        .section-title {
+            font-size: 15px;
+            color: #2c5f44;
+            font-weight: 600;
+            margin-bottom: 12px;
+            padding: 8px 12px;
+            background: linear-gradient(90deg, #f0f8f4 0%, transparent 100%);
+            border-left: 4px solid #4a9d6f;
+            border-radius: 0 6px 6px 0;
+            display: inline-block;
+            min-width: 200px;
+        }
+        
+        .section-content {
+            font-size: 11px;
+            color: #444;
+            line-height: 1.6;
+            margin-bottom: 8px;
+            padding: 0 4px;
+        }
+        
+        .highlight-box {
+            background: linear-gradient(135deg, #f0f8f4 0%, #e8f5ed 100%);
+            padding: 12px 16px;
+            border-radius: 8px;
+            border-left: 4px solid #4a9d6f;
+            margin: 10px 0;
+            font-size: 11px;
+            color: #2c5f44;
+            font-weight: 500;
+            box-shadow: 0 2px 8px rgba(74, 157, 111, 0.1);
+            position: relative;
+        }
+        
+        .highlight-box::before {
+            content: '✨';
+            position: absolute;
+            right: 16px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 20px;
+            opacity: 0.3;
+        }
+        
+        .plans-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 12px;
+            margin-top: 12px;
+        }
+        
+        .plan-card {
+            background: white;
+            border: 2px solid #e8f5ed;
+            border-radius: 10px;
+            padding: 14px;
+            transition: all 0.3s ease;
+            position: relative;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+        }
+        
+        .plan-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 16px rgba(74, 157, 111, 0.2);
+        }
+        
+        .plan-card.featured {
+            border-color: #4a9d6f;
+            border-width: 2px;
+            background: linear-gradient(135deg, #ffffff 0%, #f9fcfa 100%);
+            box-shadow: 0 4px 16px rgba(74, 157, 111, 0.15);
+        }
+        
+        .plan-badge {
+            background: linear-gradient(135deg, #4a9d6f 0%, #3d8660 100%);
+            color: white;
+            font-size: 8px;
+            padding: 4px 10px;
+            border-radius: 12px;
+            display: inline-block;
+            margin-bottom: 6px;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+            box-shadow: 0 2px 6px rgba(74, 157, 111, 0.3);
+        }
+        
+        .plan-card h3 {
+            font-size: 12px;
+            color: #2c5f44;
+            margin-bottom: 4px;
+            font-weight: 600;
+        }
+        
+        .plan-card .plan-subtitle {
+            font-size: 9px;
+            color: #777;
+            margin-bottom: 8px;
+            font-style: italic;
+        }
+        
+        .plan-card ul {
+            list-style: none;
+            font-size: 8.5px;
+            color: #555;
+            line-height: 1.6;
+        }
+        
+        .plan-card ul li {
+            padding-left: 14px;
+            position: relative;
+            margin-bottom: 3px;
+        }
+        
+        .plan-card ul li:before {
+            content: "✓";
+            position: absolute;
+            left: 0;
+            color: #4a9d6f;
+            font-weight: 700;
+            font-size: 10px;
+        }
+        
+        .two-column {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+            margin-top: 10px;
+        }
+        
+        .info-box {
+            background: linear-gradient(135deg, #fafafa 0%, #f5f5f5 100%);
+            border: 1.5px solid #e5e5e5;
+            border-radius: 8px;
+            padding: 12px;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .info-box::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 4px;
+            height: 100%;
+            background: linear-gradient(180deg, #4a9d6f 0%, #66bb8a 100%);
+        }
+        
+        .info-box:hover {
+            border-color: #4a9d6f;
+            box-shadow: 0 2px 12px rgba(74, 157, 111, 0.1);
+        }
+        
+        .info-box h4 {
+            font-size: 10px;
+            color: #2c5f44;
+            margin-bottom: 8px;
+            font-weight: 600;
+            padding-left: 8px;
+        }
+        
+        .info-box ul {
+            list-style: none;
+            font-size: 8.5px;
+            color: #555;
+            line-height: 1.7;
+            padding-left: 8px;
+        }
+        
+        .info-box ul li {
+            padding-left: 12px;
+            position: relative;
+            margin-bottom: 3px;
+        }
+        
+        .info-box ul li:before {
+            content: "●";
+            position: absolute;
+            left: 0;
+            color: #4a9d6f;
+            font-size: 8px;
+        }
+        
+        .benefits {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 8px;
+            margin-top: 10px;
+        }
+        
+        .benefit-item {
+            font-size: 9.5px;
+            color: #555;
+            padding: 6px 6px 6px 18px;
+            position: relative;
+            background: #fafafa;
+            border-radius: 6px;
+            transition: all 0.3s ease;
+        }
+        
+        .benefit-item:hover {
+            background: #f0f8f4;
+            transform: translateX(2px);
+        }
+        
+        .benefit-item:before {
+            content: "✓";
+            position: absolute;
+            left: 6px;
+            color: #4a9d6f;
+            font-weight: 700;
+            font-size: 12px;
+        }
+        
+        .note-box {
+            background: linear-gradient(135deg, #fff9e6 0%, #fff5d6 100%);
+            border-left: 4px solid #f5a623;
+            border-radius: 6px;
+            padding: 10px 14px;
+            margin: 10px 0;
+            font-size: 9px;
+            color: #555;
+            line-height: 1.6;
+            box-shadow: 0 2px 8px rgba(245, 166, 35, 0.1);
+        }
+        
+        .note-box strong {
+            color: #2c5f44;
+            display: block;
+            margin-bottom: 4px;
+            font-size: 10px;
+        }
+        
+        .commitment {
+            background: linear-gradient(135deg, #f0f8f4 0%, #e8f5ed 100%);
+            padding: 14px;
+            border-radius: 8px;
+            text-align: center;
+            margin: 14px 0 10px 0;
+            font-size: 11px;
+            color: #2c5f44;
+            font-style: italic;
+            line-height: 1.6;
+            border: 2px solid #d5e8de;
+            box-shadow: 0 2px 12px rgba(74, 157, 111, 0.1);
+            position: relative;
+        }
+        
+        .commitment::before,
+        .commitment::after {
+            content: '"';
+            font-size: 32px;
+            color: #4a9d6f;
+            opacity: 0.2;
+            position: absolute;
+            font-family: Georgia, serif;
+        }
+        
+        .commitment::before {
+            top: 5px;
+            left: 15px;
+        }
+        
+        .commitment::after {
+            bottom: 5px;
+            right: 15px;
+        }
+        
+        .footer {
+            text-align: center;
+            margin-top: 14px;
+            padding: 14px;
+            border-top: 2px solid #e8f5ed;
+            background: linear-gradient(135deg, #fafafa 0%, #f5f5f5 100%);
+            border-radius: 8px;
+        }
+        
+        .footer p {
+            font-size: 10px;
+            color: #555;
+            margin-bottom: 4px;
+        }
+        
+        .footer .contact {
+            font-size: 10px;
+            color: #2c5f44;
+            font-weight: 600;
+        }
+        
+        .download-section {
+            text-align: center;
+            margin-top: 30px;
+            padding: 20px;
+            background: linear-gradient(135deg, #f0f8f4 0%, #e8f5ed 100%);
+            border-radius: 12px;
+            border: 2px dashed #4a9d6f;
+            box-shadow: 0 4px 16px rgba(74, 157, 111, 0.1);
+        }
+        
+        .download-btn {
+            background: linear-gradient(135deg, #4a9d6f 0%, #3d8660 100%);
+            color: white;
+            border: none;
+            padding: 14px 40px;
+            font-size: 15px;
+            font-weight: 600;
+            border-radius: 8px;
+            cursor: pointer;
+            font-family: 'Poppins', sans-serif;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 12px rgba(74, 157, 111, 0.3);
+            letter-spacing: 0.5px;
+        }
+        
+        .download-btn:hover {
+            background: linear-gradient(135deg, #3d8660 0%, #2c5f44 100%);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(74, 157, 111, 0.4);
+        }
+        
+        .download-btn:active {
+            transform: translateY(0);
+        }
+        
+        .download-info {
+            margin-top: 12px;
+            font-size: 12px;
+            color: #555;
+        }
+        
+        .download-info strong {
+            color: #2c5f44;
+            background: white;
+            padding: 2px 6px;
+            border-radius: 4px;
+        }
+        
+        @media print {
+            body {
+                padding: 0;
+                background: white;
+            }
+            .page {
+                box-shadow: none;
+                margin: 0;
+                padding: 15mm;
+                border-radius: 0;
+            }
+            .page::before {
+                display: none;
+            }
+            .download-section {
+                display: none;
+            }
+        }
+        
+        @page {
+            size: A4;
+            margin: 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="page">
+        <div class="header">
+            <h1>SMART SCHOOL CRM</h1>
+            <h2>A simple, smart & affordable School Operating System</h2>
+            <p>(Designed specially for 200–500 student schools)</p>
+        </div>
+        
+        <div class="section">
+            <div class="section-title">What We Offer</div>
+            <div class="section-content">
+                Smart School CRM is an all-in-one digital school management system that covers every aspect of school operations. From student admission to promotion, academic management to fee collection, and parent communication to student safety, we have it all covered.
+            </div>
+            <div class="benefits">
+                <div class="benefit-item">Student lifecycle (Admission → Academics → Promotion)</div>
+                <div class="benefit-item">Academics, exams, and results</div>
+                <div class="benefit-item">Fees and accounting</div>
+                <div class="benefit-item">Parent communication</div>
+                <div class="benefit-item">Transport and student safety</div>
+                <div class="benefit-item">Optional AI-powered intelligence</div>
+            </div>
+            <div class="highlight-box">
+                Not just an ERP. A complete School Operating System.
+            </div>
+        </div>
+        
+        <div class="section">
+            <div class="section-title">Our Plans (Flexible & Scalable)</div>
+            <div class="plans-grid">
+                <div class="plan-card">
+                    <h3>Starter School Plan</h3>
+                    <div class="plan-subtitle">For new and small schools</div>
+                    <ul>
+                        <li>Student management</li>
+                        <li>Admissions module</li>
+                        <li>Attendance tracking</li>
+                        <li>Homework management</li>
+                        <li>Basic fee records</li>
+                        <li>Staff management</li>
+                        <li>Standard reports</li>
+                    </ul>
+                </div>
+                
+                <div class="plan-card featured">
+                    <span class="plan-badge">MOST PREFERRED</span>
+                    <h3>Smart School Plan</h3>
+                    <div class="plan-subtitle">For growing schools</div>
+                    <ul>
+                        <li>Everything in Starter, plus:</li>
+                        <li>Parent mobile app</li>
+                        <li>WhatsApp/SMS alerts</li>
+                        <li>Exams & results module</li>
+                        <li>Auto marksheets</li>
+                        <li>Online fee collection</li>
+                        <li>Fee reminders</li>
+                        <li>Transport management</li>
+                        <li>QR-based ID cards</li>
+                        <li>Advanced analytics</li>
+                    </ul>
+                </div>
+                
+                <div class="plan-card">
+                    <h3>AI-Powered Enterprise Plan</h3>
+                    <div class="plan-subtitle">For premium & future-ready schools</div>
+                    <ul>
+                        <li>Everything in Smart, plus:</li>
+                        <li>AI chatbot support</li>
+                        <li>AI performance insights</li>
+                        <li>Rank & trend analysis</li>
+                        <li>Defaulter analytics</li>
+                        <li>Government notifications</li>
+                        <li>Live bus GPS tracking</li>
+                        <li>Role-based access control</li>
+                        <li>Cloud backup</li>
+                        <li>Priority support</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        
+        <div class="section">
+            <div class="section-title">Why Schools Choose Us</div>
+            <div class="benefits">
+                <div class="benefit-item">Designed specifically for 200–500 student schools</div>
+                <div class="benefit-item">Easy to use with minimal training</div>
+                <div class="benefit-item">Affordable and scalable pricing</div>
+                <div class="benefit-item">Modules can be upgraded anytime</div>
+                <div class="benefit-item">Focus on usability, not complexity</div>
+                <div class="benefit-item">Dedicated customer support</div>
+            </div>
+        </div>
+        
+        <div class="section">
+            <div class="section-title">Data Required from School (For Implementation)</div>
+            <div class="two-column">
+                <div class="info-box">
+                    <h4>School Identification Details</h4>
+                    <ul>
+                        <li>School Unique Code (internal or system-generated)</li>
+                        <li>Official school name</li>
+                        <li>Address (City, State, PIN)</li>
+                        <li>Contact number</li>
+                        <li>Official email ID</li>
+                    </ul>
+                </div>
+                
+                <div class="info-box">
+                    <h4>School Documents Required</h4>
+                    <ul>
+                        <li>School registration certificate</li>
+                        <li>Affiliation details (CBSE / ICSE / State Board)</li>
+                        <li>School logo (PNG/JPG, clear quality)</li>
+                        <li>Academic calendar (optional)</li>
+                    </ul>
+                </div>
+                
+                <div class="info-box">
+                    <h4>🎓 Academic Details</h4>
+                    <ul>
+                        <li>Board Affiliation: CBSE / ICSE / State Board details</li>
+                        <li>Affiliation Number: Board registration number</li>
+                        <li>Academic Session: Start & end months (e.g., April-March)</li>
+                        <li>Classes Offered: From Class ___ to Class ___</li>
+                    </ul>
+                </div>
+                
+                <div class="info-box">
+                    <h4>Admin Access Details</h4>
+                    <ul>
+                        <li>Principal's Name & Mobile: For admin account creation</li>
+                        <li>Office Admin Name & Mobile: For daily operations access</li>
+                        <li>Total Students (approx): Current strength for setup</li>
+                        <li>Total Staff (approx): Teaching + Non-teaching count</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        
+        <div class="section">
+            <div class="section-title">Technical Requirements</div>
+            <div class="benefits">
+                <div class="benefit-item">Internet connection at school office</div>
+                <div class="benefit-item">One laptop/desktop for admin use</div>
+                <div class="benefit-item">Smartphones for admin and teachers (Android/iOS)</div>
+            </div>
+            
+            <div class="note-box">
+                <strong>Important Note</strong>
+                • All school data remains confidential and secure<br>
+                • School retains full ownership of its data<br>
+                • Training and onboarding support provided after setup
+            </div>
+        </div>
+        
+        <div class="commitment">
+            "We don't just provide software. We partner with schools to simplify operations, improve transparency, and support long-term growth."
+        </div>
+        
+        <div class="footer">
+            <p class="contact"><strong>For demo, discussion, or onboarding, please contact our team.</strong></p>
+            <p>📧 Email: contact@smartschoolcrm.com | 📞 Phone: +91-XXXXXXXXXX</p>
+        </div>
+    </div>
+    
+    <div class="download-section">
+        <button class="download-btn" onclick="downloadPDF()">📥 Download as PDF (A4)</button>
+        <div class="download-info">
+            Or use <strong>Ctrl+P</strong> (Windows) / <strong>Cmd+P</strong> (Mac) to print or save as PDF
+        </div>
+    </div>
+    
+    <script>
+        function downloadPDF() {
+            window.print();
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Salary Structure - YYJCPL</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @media print {
+            body * {
+                visibility: hidden;
+            }
+            #printable, #printable * {
+                visibility: visible;
+            }
+            #printable {
+                position: absolute;
+                left: 0;
+                top: 0;
+                width: 100%;
+            }
+            .no-print {
+                display: none !important;
+            }
+        }
+    </style>
+</head>
+<body class="bg-gradient-to-br from-blue-50 via-purple-50 to-pink-50 p-8">
+    <div class="max-w-7xl mx-auto bg-white shadow-2xl rounded-2xl p-8" id="printable">
+        <!-- Company Header -->
+        <div class="border-b-4 border-purple-600 pb-6 mb-8">
+            <div class="flex items-center justify-between">
+                <div class="flex-1">
+                    <h1 class="text-4xl font-bold text-purple-800 mb-2">YO YO JOB CARE PRIVATE LIMITED</h1>
+                    <p class="text-xl text-gray-700 font-semibold">YYJCPL</p>
+                    <p class="text-gray-600 mt-2 flex items-center">
+                        <span class="text-purple-600 font-semibold">📍</span>
+                        <span class="ml-2">Jaipur, Rajasthan</span>
+                    </p>
+                </div>
+                <div class="flex-shrink-0">
+                    <img src="https://www.yyjcpl.in/remove.png" alt="YYJCPL Logo" class="h-24 w-24 object-contain" onerror="this.style.display='none'">
+                </div>
+            </div>
+        </div>
+
+        <div class="text-center mb-8">
+            <h2 class="text-3xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-purple-600 to-pink-600 mb-2">
+                Salary Structure Report
+            </h2>
+            <p class="text-gray-600 text-lg">November & December 2024</p>
+        </div>
+
+        <button onclick="window.print()" class="no-print mb-6 flex items-center gap-2 bg-gradient-to-r from-purple-600 to-pink-600 text-white px-6 py-3 rounded-lg hover:from-purple-700 hover:to-pink-700 shadow-lg transform hover:scale-105 transition">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+            </svg>
+            Download PDF
+        </button>
+
+        <!-- November Salary Table -->
+        <div class="mb-10">
+            <h3 class="text-2xl font-bold text-white mb-4 bg-gradient-to-r from-blue-600 to-purple-600 p-4 rounded-lg shadow-lg">
+                📅 November 2024 Salary Structure
+            </h3>
+            <div class="overflow-x-auto shadow-lg rounded-lg">
+                <table class="w-full border-collapse">
+                    <thead>
+                        <tr class="bg-gradient-to-r from-blue-700 to-purple-700 text-white">
+                            <th class="border border-gray-300 p-3 text-left">Employee Name</th>
+                            <th class="border border-gray-300 p-3 text-right">CTC (₹)</th>
+                            <th class="border border-gray-300 p-3 text-right">In-Hand Salary (₹)</th>
+                            <th class="border border-gray-300 p-3 text-right">Paid (₹)</th>
+                            <th class="border border-gray-300 p-3 text-right">Pending (₹)</th>
+                            <th class="border border-gray-300 p-3 text-center">Payment Status</th>
+                        </tr>
+                    </thead>
+                    <tbody id="novemberTableBody"></tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- December Salary Table -->
+        <div class="mb-6">
+            <h3 class="text-2xl font-bold text-white mb-4 bg-gradient-to-r from-green-600 to-teal-600 p-4 rounded-lg shadow-lg">
+                📅 December 2024 Salary Structure
+            </h3>
+            <div class="overflow-x-auto shadow-lg rounded-lg">
+                <table class="w-full border-collapse">
+                    <thead>
+                        <tr class="bg-gradient-to-r from-green-700 to-teal-700 text-white">
+                            <th class="border border-gray-300 p-3 text-left">Employee Name</th>
+                            <th class="border border-gray-300 p-3 text-right">CTC (₹)</th>
+                            <th class="border border-gray-300 p-3 text-right">In-Hand Salary (₹)</th>
+                            <th class="border border-gray-300 p-3 text-right">Paid (₹)</th>
+                            <th class="border border-gray-300 p-3 text-right">Pending (₹)</th>
+                            <th class="border border-gray-300 p-3 text-center">Payment Status</th>
+                        </tr>
+                    </thead>
+                    <tbody id="decemberTableBody"></tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Summary Section -->
+        <div class="mt-8 p-6 bg-gradient-to-br from-purple-100 via-pink-100 to-red-100 rounded-xl shadow-lg border-2 border-purple-300">
+            <h3 class="text-2xl font-bold mb-6 text-purple-900">📊 Summary</h3>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div class="bg-white p-6 rounded-lg shadow-md border-l-4 border-blue-500">
+                    <p class="text-gray-600 mb-2 font-semibold">Total November Pending</p>
+                    <p class="text-3xl font-bold text-red-600" id="novPendingTotal">₹ 0</p>
+                </div>
+                <div class="bg-white p-6 rounded-lg shadow-md border-l-4 border-green-500">
+                    <p class="text-gray-600 mb-2 font-semibold">Total December Pending</p>
+                    <p class="text-3xl font-bold text-red-600" id="decPendingTotal">₹ 0</p>
+                </div>
+                <div class="bg-white p-6 rounded-lg shadow-md col-span-1 md:col-span-2 border-l-4 border-red-500">
+                    <p class="text-gray-600 mb-2 font-semibold">Total Outstanding Amount (Both Months)</p>
+                    <p class="text-4xl font-bold text-red-700" id="totalOutstanding">₹ 0</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="mt-8 text-center text-gray-500 text-sm border-t pt-6">
+            <p class="font-semibold" id="generatedDate"></p>
+            <p class="mt-2 text-purple-600">YO YO JOB CARE PRIVATE LIMITED, Jaipur</p>
+        </div>
+    </div>
+
+    <script>
+        // Employee Data
+        const employees = [
+            {
+                name: "Priyanka Sharma",
+                ctc: 25000,
+                inHand: 23263,
+                novPaid: 18263,
+                novPending: 5000,
+                novStatus: "Partially Paid",
+                decPaid: 0,
+                decPending: 23263,
+                decStatus: "Pending"
+            },
+            {
+                name: "Sandeep Verma",
+                ctc: 20000,
+                inHand: 18263,
+                novPaid: 10333,
+                novPending: 7930,
+                novStatus: "Partially Paid",
+                decPaid: 0,
+                decPending: 18263,
+                decStatus: "Pending"
+            },
+            {
+                name: "Abhishek Sejwal",
+                ctc: 20000,
+                inHand: 18263,
+                novPaid: 9000,
+                novPending: 9263,
+                novStatus: "Partially Paid",
+                decPaid: 0,
+                decPending: 18263,
+                decStatus: "Pending"
+            },
+            {
+                name: "Yashpal Surya",
+                ctc: 20000,
+                inHand: 18263,
+                novPaid: 0,
+                novPending: 18263,
+                novStatus: "Pending",
+                decPaid: 0,
+                decPending: 18263,
+                decStatus: "Pending"
+            },
+            {
+                name: "Kapil Besan",
+                ctc: 20000,
+                inHand: 18263,
+                novPaid: 0,
+                novPending: 18263,
+                novStatus: "Pending",
+                decPaid: 0,
+                decPending: 18263,
+                decStatus: "Pending"
+            }
+        ];
+
+        // Function to format currency
+        function formatCurrency(amount) {
+            return amount.toLocaleString('en-IN');
+        }
+
+        // Function to get status badge HTML
+        function getStatusBadge(status) {
+            if (status === "Paid") {
+                return '<span class="px-3 py-1 bg-green-100 text-green-800 rounded-full text-sm font-semibold">Paid</span>';
+            } else if (status === "Partially Paid") {
+                return '<span class="px-3 py-1 bg-yellow-100 text-yellow-800 rounded-full text-sm font-semibold">Partially Paid</span>';
+            } else {
+                return '<span class="px-3 py-1 bg-red-100 text-red-800 rounded-full text-sm font-semibold">Pending</span>';
+            }
+        }
+
+        // Populate November Table
+        function populateNovemberTable() {
+            const tbody = document.getElementById('novemberTableBody');
+            let totalPaid = 0;
+            let totalPending = 0;
+            
+            employees.forEach((emp, index) => {
+                const bgClass = index % 2 === 0 ? 'bg-blue-50' : 'bg-white';
+                totalPaid += emp.novPaid;
+                totalPending += emp.novPending;
+                
+                tbody.innerHTML += `
+                    <tr class="${bgClass}">
+                        <td class="border border-gray-300 p-3 font-medium text-gray-800">${emp.name}</td>
+                        <td class="border border-gray-300 p-3 text-right font-semibold">${formatCurrency(emp.ctc)}</td>
+                        <td class="border border-gray-300 p-3 text-right font-semibold text-purple-700">${formatCurrency(emp.inHand)}</td>
+                        <td class="border border-gray-300 p-3 text-right text-green-600 font-bold">${formatCurrency(emp.novPaid)}</td>
+                        <td class="border border-gray-300 p-3 text-right text-red-600 font-bold">${formatCurrency(emp.novPending)}</td>
+                        <td class="border border-gray-300 p-3 text-center">${getStatusBadge(emp.novStatus)}</td>
+                    </tr>
+                `;
+            });
+            
+            tbody.innerHTML += `
+                <tr class="bg-gradient-to-r from-blue-200 to-purple-200 font-bold text-lg">
+                    <td class="border border-gray-300 p-4" colspan="3">
+                        <span class="text-purple-900">TOTAL (November)</span>
+                    </td>
+                    <td class="border border-gray-300 p-4 text-right text-green-700">₹ ${formatCurrency(totalPaid)}</td>
+                    <td class="border border-gray-300 p-4 text-right text-red-700">₹ ${formatCurrency(totalPending)}</td>
+                    <td class="border border-gray-300 p-4"></td>
+                </tr>
+            `;
+            
+            return { totalPaid, totalPending };
+        }
+
+        // Populate December Table
+        function populateDecemberTable() {
+            const tbody = document.getElementById('decemberTableBody');
+            let totalPaid = 0;
+            let totalPending = 0;
+            
+            employees.forEach((emp, index) => {
+                const bgClass = index % 2 === 0 ? 'bg-green-50' : 'bg-white';
+                totalPaid += emp.decPaid;
+                totalPending += emp.decPending;
+                
+                tbody.innerHTML += `
+                    <tr class="${bgClass}">
+                        <td class="border border-gray-300 p-3 font-medium text-gray-800">${emp.name}</td>
+                        <td class="border border-gray-300 p-3 text-right font-semibold">${formatCurrency(emp.ctc)}</td>
+                        <td class="border border-gray-300 p-3 text-right font-semibold text-teal-700">${formatCurrency(emp.inHand)}</td>
+                        <td class="border border-gray-300 p-3 text-right text-green-600 font-bold">${formatCurrency(emp.decPaid)}</td>
+                        <td class="border border-gray-300 p-3 text-right text-red-600 font-bold">${formatCurrency(emp.decPending)}</td>
+                        <td class="border border-gray-300 p-3 text-center">${getStatusBadge(emp.decStatus)}</td>
+                    </tr>
+                `;
+            });
+            
+            tbody.innerHTML += `
+                <tr class="bg-gradient-to-r from-green-200 to-teal-200 font-bold text-lg">
+                    <td class="border border-gray-300 p-4" colspan="3">
+                        <span class="text-teal-900">TOTAL (December)</span>
+                    </td>
+                    <td class="border border-gray-300 p-4 text-right text-green-700">₹ ${formatCurrency(totalPaid)}</td>
+                    <td class="border border-gray-300 p-4 text-right text-red-700">₹ ${formatCurrency(totalPending)}</td>
+                    <td class="border border-gray-300 p-4"></td>
+                </tr>
+            `;
+            
+            return { totalPaid, totalPending };
+        }
+
+        // Update Summary
+        function updateSummary(novTotal, decTotal) {
+            document.getElementById('novPendingTotal').textContent = '₹ ' + formatCurrency(novTotal.totalPending);
+            document.getElementById('decPendingTotal').textContent = '₹ ' + formatCurrency(decTotal.totalPending);
+            document.getElementById('totalOutstanding').textContent = '₹ ' + formatCurrency(novTotal.totalPending + decTotal.totalPending);
+        }
+
+        // Set Generated Date
+        function setGeneratedDate() {
+            const options = { day: 'numeric', month: 'long', year: 'numeric' };
+            const date = new Date().toLocaleDateString('en-IN', options);
+            document.getElementById('generatedDate').textContent = 'Generated on ' + date;
+        }
+
+        // Initialize
+        window.onload = function() {
+            const novTotal = populateNovemberTable();
+            const decTotal = populateDecemberTable();
+            updateSummary(novTotal, decTotal);
+            setGeneratedDate();
+        };
+    </script>
+</body>
+</html>

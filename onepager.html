@@ -1,0 +1,497 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Smart School CRM</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: #f9f9f9;
+            padding: 20px;
+        }
+        
+        .page {
+            width: 210mm;
+            min-height: 297mm;
+            background: white;
+            margin: 0 auto;
+            padding: 18mm;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .header {
+            text-align: center;
+            margin-bottom: 20px;
+            padding-bottom: 14px;
+            border-bottom: 3px solid #4a9d6f;
+        }
+        
+        .header h1 {
+            font-size: 30px;
+            color: #2c5f44;
+            font-weight: 700;
+            letter-spacing: 1px;
+            margin-bottom: 6px;
+        }
+        
+        .header h2 {
+            font-size: 15px;
+            color: #555;
+            font-weight: 400;
+            margin-bottom: 3px;
+        }
+        
+        .header p {
+            font-size: 11px;
+            color: #777;
+            font-weight: 300;
+        }
+        
+        .section {
+            margin-bottom: 16px;
+        }
+        
+        .section-title {
+            font-size: 14px;
+            color: #2c5f44;
+            font-weight: 600;
+            margin-bottom: 8px;
+            padding-left: 10px;
+            border-left: 4px solid #4a9d6f;
+        }
+        
+        .section-content {
+            font-size: 10px;
+            color: #444;
+            line-height: 1.5;
+            margin-bottom: 6px;
+        }
+        
+        .highlight-box {
+            background: #f0f8f4;
+            padding: 8px 12px;
+            border-radius: 5px;
+            border-left: 3px solid #4a9d6f;
+            margin: 8px 0;
+            font-size: 10px;
+            color: #2c5f44;
+            font-weight: 500;
+        }
+        
+        .plans-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+            margin-top: 10px;
+        }
+        
+        .plan-card {
+            background: white;
+            border: 1.5px solid #d5e8de;
+            border-radius: 6px;
+            padding: 10px;
+        }
+        
+        .plan-card.featured {
+            border-color: #4a9d6f;
+            border-width: 2px;
+        }
+        
+        .plan-badge {
+            background: #4a9d6f;
+            color: white;
+            font-size: 8px;
+            padding: 2px 6px;
+            border-radius: 8px;
+            display: inline-block;
+            margin-bottom: 4px;
+            font-weight: 500;
+        }
+        
+        .plan-card h3 {
+            font-size: 11px;
+            color: #2c5f44;
+            margin-bottom: 3px;
+            font-weight: 600;
+        }
+        
+        .plan-card .plan-subtitle {
+            font-size: 8px;
+            color: #777;
+            margin-bottom: 6px;
+            font-style: italic;
+        }
+        
+        .plan-card ul {
+            list-style: none;
+            font-size: 8px;
+            color: #555;
+            line-height: 1.5;
+        }
+        
+        .plan-card ul li {
+            padding-left: 12px;
+            position: relative;
+            margin-bottom: 2px;
+        }
+        
+        .plan-card ul li:before {
+            content: "✓";
+            position: absolute;
+            left: 0;
+            color: #4a9d6f;
+            font-weight: 600;
+        }
+        
+        .two-column {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            margin-top: 8px;
+        }
+        
+        .info-box {
+            background: #fafafa;
+            border: 1px solid #e5e5e5;
+            border-radius: 5px;
+            padding: 10px;
+        }
+        
+        .info-box h4 {
+            font-size: 10px;
+            color: #2c5f44;
+            margin-bottom: 6px;
+            font-weight: 600;
+        }
+        
+        .info-box ul {
+            list-style: none;
+            font-size: 8px;
+            color: #555;
+            line-height: 1.6;
+        }
+        
+        .info-box ul li {
+            padding-left: 10px;
+            position: relative;
+            margin-bottom: 2px;
+        }
+        
+        .info-box ul li:before {
+            content: "•";
+            position: absolute;
+            left: 0;
+            color: #4a9d6f;
+        }
+        
+        .benefits {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 6px;
+            margin-top: 8px;
+        }
+        
+        .benefit-item {
+            font-size: 9px;
+            color: #555;
+            padding-left: 14px;
+            position: relative;
+        }
+        
+        .benefit-item:before {
+            content: "✓";
+            position: absolute;
+            left: 0;
+            color: #4a9d6f;
+            font-weight: 600;
+            font-size: 11px;
+        }
+        
+        .note-box {
+            background: #fff9e6;
+            border-left: 3px solid #f5a623;
+            padding: 8px 12px;
+            margin: 10px 0;
+            font-size: 8px;
+            color: #555;
+            line-height: 1.5;
+        }
+        
+        .note-box strong {
+            color: #2c5f44;
+            display: block;
+            margin-bottom: 3px;
+            font-size: 9px;
+        }
+        
+        .commitment {
+            background: #f0f8f4;
+            padding: 10px;
+            border-radius: 5px;
+            text-align: center;
+            margin: 12px 0 10px 0;
+            font-size: 10px;
+            color: #2c5f44;
+            font-style: italic;
+            line-height: 1.5;
+        }
+        
+        .footer {
+            text-align: center;
+            margin-top: 12px;
+            padding-top: 10px;
+            border-top: 2px solid #e5e5e5;
+        }
+        
+        .footer p {
+            font-size: 10px;
+            color: #555;
+            margin-bottom: 3px;
+        }
+        
+        .footer .contact {
+            font-size: 9px;
+            color: #2c5f44;
+            font-weight: 500;
+        }
+        
+        .download-section {
+            text-align: center;
+            margin-top: 20px;
+            padding: 15px;
+            background: #f0f8f4;
+            border-radius: 8px;
+            border: 2px dashed #4a9d6f;
+        }
+        
+        .download-btn {
+            background: #4a9d6f;
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            font-size: 14px;
+            font-weight: 600;
+            border-radius: 6px;
+            cursor: pointer;
+            font-family: 'Poppins', sans-serif;
+            transition: background 0.3s;
+        }
+        
+        .download-btn:hover {
+            background: #3d8660;
+        }
+        
+        .download-info {
+            margin-top: 10px;
+            font-size: 11px;
+            color: #555;
+        }
+        
+        @media print {
+            body {
+                padding: 0;
+                background: white;
+            }
+            .page {
+                box-shadow: none;
+                margin: 0;
+                padding: 15mm;
+            }
+            .download-section {
+                display: none;
+            }
+        }
+        
+        @page {
+            size: A4;
+            margin: 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="page">
+        <div class="header">
+            <h1>SMART SCHOOL CRM</h1>
+            <h2>A simple, smart & affordable School Operating System</h2>
+            <p>(Designed specially for 200–500 student schools)</p>
+        </div>
+        
+        <div class="section">
+            <div class="section-title">What We Offer</div>
+            <div class="section-content">
+                Smart School CRM is an all-in-one digital school management system that covers every aspect of school operations. From student admission to promotion, academic management to fee collection, and parent communication to student safety, we have it all covered.
+            </div>
+            <div class="benefits">
+                <div class="benefit-item">Student lifecycle (Admission → Academics → Promotion)</div>
+                <div class="benefit-item">Academics, exams, and results</div>
+                <div class="benefit-item">Fees and accounting</div>
+                <div class="benefit-item">Parent communication</div>
+                <div class="benefit-item">Transport and student safety</div>
+                <div class="benefit-item">Optional AI-powered intelligence</div>
+            </div>
+            <div class="highlight-box">
+                Not just an ERP. A complete School Operating System.
+            </div>
+        </div>
+        
+        <div class="section">
+            <div class="section-title">Our Plans (Flexible & Scalable)</div>
+            <div class="plans-grid">
+                <div class="plan-card">
+                    <h3>Starter School Plan</h3>
+                    <div class="plan-subtitle">For new and small schools</div>
+                    <ul>
+                        <li>Student management</li>
+                        <li>Admissions module</li>
+                        <li>Attendance tracking</li>
+                        <li>Homework management</li>
+                        <li>Basic fee records</li>
+                        <li>Staff management</li>
+                        <li>Standard reports</li>
+                    </ul>
+                </div>
+                
+                <div class="plan-card featured">
+                    <span class="plan-badge">MOST PREFERRED</span>
+                    <h3>Smart School Plan</h3>
+                    <div class="plan-subtitle">For growing schools</div>
+                    <ul>
+                        <li>Everything in Starter, plus:</li>
+                        <li>Parent mobile app</li>
+                        <li>WhatsApp/SMS alerts</li>
+                        <li>Exams & results module</li>
+                        <li>Auto marksheets</li>
+                        <li>Online fee collection</li>
+                        <li>Fee reminders</li>
+                        <li>Transport management</li>
+                        <li>QR-based ID cards</li>
+                        <li>Advanced analytics</li>
+                    </ul>
+                </div>
+                
+                <div class="plan-card">
+                    <h3>AI-Powered Enterprise Plan</h3>
+                    <div class="plan-subtitle">For premium & future-ready schools</div>
+                    <ul>
+                        <li>Everything in Smart, plus:</li>
+                        <li>AI chatbot support</li>
+                        <li>AI performance insights</li>
+                        <li>Rank & trend analysis</li>
+                        <li>Defaulter analytics</li>
+                        <li>Government notifications</li>
+                        <li>Live bus GPS tracking</li>
+                        <li>Role-based access control</li>
+                        <li>Cloud backup</li>
+                        <li>Priority support</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        
+        <div class="section">
+            <div class="section-title">Why Schools Choose Us</div>
+            <div class="benefits">
+                <div class="benefit-item">Designed specifically for 200–500 student schools</div>
+                <div class="benefit-item">Easy to use with minimal training</div>
+                <div class="benefit-item">Affordable and scalable pricing</div>
+                <div class="benefit-item">Modules can be upgraded anytime</div>
+                <div class="benefit-item">Focus on usability, not complexity</div>
+                <div class="benefit-item">Dedicated customer support</div>
+            </div>
+        </div>
+        
+        <div class="section">
+            <div class="section-title">Data Required from School (For Implementation)</div>
+            <div class="two-column">
+                <div class="info-box">
+                    <h4>School Identification Details</h4>
+                    <ul>
+                        <li>School Unique Code (internal or system-generated)</li>
+                        <li>Official school name</li>
+                        <li>Address (City, State, PIN)</li>
+                        <li>Contact number</li>
+                        <li>Official email ID</li>
+                    </ul>
+                </div>
+                
+                <div class="info-box">
+                    <h4>School Documents Required</h4>
+                    <ul>
+                        <li>School registration certificate</li>
+                        <li>Affiliation details (CBSE / ICSE / State Board)</li>
+                        <li>School logo (PNG/JPG, clear quality)</li>
+                        <li>Academic calendar (optional)</li>
+                    </ul>
+                </div>
+                
+                <div class="info-box">
+                    <h4>🎓 Academic Details</h4>
+                    <ul>
+                        <li>Board Affiliation: CBSE / ICSE / State Board details</li>
+                        <li>Affiliation Number: Board registration number</li>
+                        <li>Academic Session: Start & end months (e.g., April-March)</li>
+                        <li>Classes Offered: From Class ___ to Class ___</li>
+                    </ul>
+                </div>
+                
+                <div class="info-box">
+                    <h4>Admin Access Details</h4>
+                    <ul>
+                        <li>Principal's Name & Mobile: For admin account creation</li>
+                        <li>Office Admin Name & Mobile: For daily operations access</li>
+                        <li>Total Students (approx): Current strength for setup</li>
+                        <li>Total Staff (approx): Teaching + Non-teaching count</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        
+        <div class="section">
+            <div class="section-title">Technical Requirements</div>
+            <div class="benefits">
+                <div class="benefit-item">Internet connection at school office</div>
+                <div class="benefit-item">One laptop/desktop for admin use</div>
+                <div class="benefit-item">Smartphones for admin and teachers (Android/iOS)</div>
+            </div>
+            
+            <div class="note-box">
+                <strong>Important Note</strong>
+                • All school data remains confidential and secure<br>
+                • School retains full ownership of its data<br>
+                • Training and onboarding support provided after setup
+            </div>
+        </div>
+        
+        <div class="commitment">
+            "We don't just provide software. We partner with schools to simplify operations, improve transparency, and support long-term growth."
+        </div>
+        
+        <div class="footer">
+            <p class="contact"><strong>For demo, discussion, or onboarding, please contact our team.</strong></p>
+            <p>📧 Email: contact@smartschoolcrm.com | 📞 Phone: +91-XXXXXXXXXX</p>
+        </div>
+    </div>
+    
+    <div class="download-section">
+        <button class="download-btn" onclick="downloadPDF()">📥 Download as PDF (A4)</button>
+        <div class="download-info">
+            Or use <strong>Ctrl+P</strong> (Windows) / <strong>Cmd+P</strong> (Mac) to print or save as PDF
+        </div>
+    </div>
+    
+    <script>
+        function downloadPDF() {
+            window.print();
+        }
+    </script>
+</body>
+</html>

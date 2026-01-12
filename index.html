@@ -1,383 +1,303 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Consumer Service Form</title>
-
-  <!-- Google Fonts -->
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
-  <!-- FontAwesome -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
-  <!-- SweetAlert2 -->
-  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-  <!-- EmailJS -->
-  <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
-
-  <!-- Favicon (Prevents 404) -->
-  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>Form</text></svg>">
-
-  <style>
-    * { margin: 0; padding: 0; box-sizing: border-box; }
-    body {
-      font-family: 'Poppins', sans-serif;
-      background: linear-gradient(135deg, #E6F0FA 0%, #FFE5D9 100%);
-      min-height: 100vh;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      padding: 1rem;
-      overflow-x: hidden;
-      position: relative;
-    }
-    .container {
-      background: rgba(255, 255, 255, 0.96);
-      backdrop-filter: blur(12px);
-      border-radius: 20px;
-      box-shadow: 0 12px 35px rgba(0, 0, 0, 0.1);
-      padding: 1.8rem;
-      width: 100%;
-      max-width: 900px;
-      animation: slideUp 0.7s ease-out;
-      border: 1px solid rgba(0, 119, 182, 0.15);
-      margin: 0 auto;
-    }
-    @keyframes slideUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
-
-    /* Header */
-    .header { text-align: center; margin-bottom: 1.5rem; }
-    .logo {
-      width: 70px; height: 70px; border-radius: 50%; object-fit: cover;
-      border: 3px solid #FF6B35; box-shadow: 0 5px 18px rgba(255,107,53,0.35);
-      transition: all .4s; animation: pulseGlow 2s infinite alternate;
-    }
-    .logo:hover { transform: scale(1.08); }
-    @keyframes pulseGlow {
-      from { box-shadow: 0 5px 18px rgba(255,107,53,0.35); }
-      to { box-shadow: 0 5px 22px rgba(255,107,53,0.48); }
-    }
-    h1 {
-      color: #1A3C5E; margin-top: 0.8rem; font-weight: 700; font-size: 1.7rem;
-      background: linear-gradient(90deg, #0077B6, #FF6B35);
-      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-      background-clip: text; line-height: 1.2;
-    }
-    .subtitle { color: #2C5A7A; font-size: 0.9rem; margin-top: 0.4rem; font-weight: 500; }
-
-    /* Form */
-    .form-section {
-      background: rgba(248,252,255,0. Solver95); border-radius: 14px; padding: 1.4rem;
-      margin-bottom: 1.4rem; border: 1px solid rgba(0,119,182,0.18);
-      transition: all .35s; position: relative; overflow: hidden;
-    }
-    .form-section::before {
-      content: ''; position: absolute; top: 0; left: 0; width: 4px; height: 100%;
-      background: linear-gradient(to bottom, #FF6B35, #0077B6);
-      border-radius: 14px 0 0 14px;
-    }
-    .form-section:hover {
-      transform: translateY(-3px); box-shadow: 0 8px 22px rgba(255,107,53,0.15);
-      border-color: #FF6B35;
-    }
-    .section-title {
-      display: flex; align-items: center; gap: 0.5rem; color: #1A3C5E;
-      font-weight: 700; margin-bottom: 1rem; font-size: 1.05rem;
-      text-transform: uppercase; letter-spacing: 0.6px;
-    }
-    .section-title i {
-      background: linear-gradient(45deg, #FF6B35, #0077B6); color: #fff;
-      width: 32px; height: 32px; border-radius: 50%; display: flex; align-items: center;
-      justify-content: center; font-size: 0.9rem; box-shadow: 0 3px 10px rgba(255,107,53,0.3);
-    }
-    .form-grid { display: grid; grid-template-columns: 1fr; gap: 1rem; }
-    .form-group { display: flex; flex-direction: column; }
-    .form-group.full-width { grid-column: 1; }
-
-    label {
-      display: flex; align-items: center; gap: 0.4rem; margin-bottom: 0.5rem;
-      color: #1A3C5E; font-weight: 600; font-size: 0.92rem;
-    }
-    label i { color: #FF6B35; width: 18px; text-align: center; font-size: 1rem; }
-
-    input, textarea, select {
-      padding: 0.8rem 1rem; border: 2px solid #B3E5FC; border-radius: 11px;
-      font-family: 'Poppins', sans-serif; font-size: 0.95rem; transition: all .3s;
-      background: #FAFDFF; box-shadow: inset 0 1px 4px rgba(0,0,0,.03);
-    }
-    input:focus, textarea:focus, select:focus {
-      outline: none; border-color: #0077B6;
-      box-shadow: 0 0 0 3.5px rgba(0,119,182,.2), inset 0 1px 4px rgba(0,0,0,.05);
-      transform: translateY(-1px); background: #fff;
-    }
-
-    /* File Upload */
-    .file-input-wrapper { position: relative; overflow: hidden; width: 100%; }
-    .file-input-wrapper input[type=file] {
-      font-size: 100px; position: absolute; left: 0; top: 0; opacity: 0; cursor: pointer;
-    }
-    .file-input-button {
-      display: flex; align-items: center; justify-content: center; gap: 0.4rem;
-      padding: 0.85rem 1.1rem; background: linear-gradient(135deg, #FFF3E0, #FFCCBC);
-      border: 2px dashed #FF6B35; border-radius: 12px; color: #1A3C5E;
-      font-weight: 600; text-align: center; cursor: pointer; transition: all .3s;
-      font-size: 0.92rem;
-    }
-    .file-input-button:hover {
-      background: linear-gradient(135deg, #FFCCBC, #FFB74D);
-      border-color: #F57C00; transform: translateY(-1.5px);
-      box-shadow: 0 5px 14px rgba(255,107,53,.22);
-    }
-    .file-name { margin-top: 0.5rem; font-size: 0.88rem; color: #FF6B35; font-weight: 600; text-align: center; }
-
-    .preview-container {
-      margin-top: 1rem; padding: 1.3rem;
-      background: linear-gradient(135deg, #FFF3E0, #FFCCBC);
-      border: 2px dashed #FF6B35; border-radius: 14px; text-align: center;
-      animation: fadeIn .5s; display: none;
-    }
-    .preview-container.show { display: block; }
-    #previewImg {
-      max-width: 100%; max-height: 300px; border-radius: 12px;
-      box-shadow: 0 6px 20px rgba(0,0,0,.1); border: 1px solid #B3E5FC;
-      margin: 0 auto; display: block;
-    }
-
-    /* Submit Button */
-    .submit-btn {
-      background: linear-gradient(135deg, #FF6B35, #F57C00); color: #fff;
-      border: none; padding: 0.95rem 2.2rem; font-size: 1.05rem; font-weight: 700;
-      border-radius: 50px; cursor: pointer; display: block; margin: 1.8rem auto 0;
-      transition: all .4s; overflow: hidden; box-shadow: 0 7px 18px rgba(255,107,53,.35);
-      text-transform: uppercase; letter-spacing: 0.8px; width: 100%; max-width: 300px;
-    }
-    .submit-btn:hover {
-      transform: translateY(-3px) scale(1.03);
-      box-shadow: 0 12px 28px rgba(255,107,53,.48);
-      background: linear-gradient(135deg, #FF8A65, #FF5722);
-    }
-    .loader {
-      display: none; border: 3px solid #f3f3f3; border-top: 3px solid #fff;
-      border-radius: 50%; width: 20px; height: 20px; animation: spin 1s linear infinite;
-      margin-left: 10px; vertical-align: middle;
-    }
-    @keyframes spin { 0% { transform: rotate(0); } 100% { transform: rotate(360deg); } }
-
-    /* Responsive */
-    @media (min-width: 480px) {
-      .form-grid { grid-template-columns: 1fr 1fr; }
-      .form-group.full-width { grid-column: span 2; }
-      .logo { width: 80px; height: 80px; }
-      h1 { font-size: 1.9rem; }
-    }
-    @media (min-width: 768px) {
-      .container { padding: 2.2rem; border-radius: 24px; }
-      .logo { width: 90px; height: 90px; }
-      h1 { font-size: 2rem; }
-      .submit-btn { max-width: 340px; padding: 1rem 2.5rem; }
-    }
-    @media (max-width: 400px) {
-      .container { padding: 1.4rem; border-radius: 16px; }
-      h1 { font-size: 1.5rem; }
-      .submit-btn { font-size: 1rem; padding: 0.9rem 2rem; }
-      .logo { width: 60px; height: 60px; }
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Salary Structure - YYJCPL</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @media print {
+            body * {
+                visibility: hidden;
+            }
+            #printable, #printable * {
+                visibility: visible;
+            }
+            #printable {
+                position: absolute;
+                left: 0;
+                top: 0;
+                width: 100%;
+            }
+            .no-print {
+                display: none !important;
+            }
+        }
+    </style>
 </head>
-<body>
-  <div class="container">
-    <!-- Header -->
-    <div class="header">
-      <img src="https://www.yyjcpl.in/remove.png" alt="Logo" class="logo" />
-      <h1>Consumer Service Form</h1>
-      <p class="subtitle">Submit your details to get started</p>
+<body class="bg-gradient-to-br from-blue-50 via-purple-50 to-pink-50 p-8">
+    <div class="max-w-7xl mx-auto bg-white shadow-2xl rounded-2xl p-8" id="printable">
+        <!-- Company Header -->
+        <div class="border-b-4 border-purple-600 pb-6 mb-8">
+            <div class="flex items-center justify-between">
+                <div class="flex-1">
+                    <h1 class="text-4xl font-bold text-purple-800 mb-2">YO YO JOB CARE PRIVATE LIMITED</h1>
+                    <p class="text-xl text-gray-700 font-semibold">YYJCPL</p>
+                    <p class="text-gray-600 mt-2 flex items-center">
+                        <span class="text-purple-600 font-semibold">📍</span>
+                        <span class="ml-2">Jaipur, Rajasthan</span>
+                    </p>
+                </div>
+                <div class="flex-shrink-0">
+                    <img src="https://www.yyjcpl.in/remove.png" alt="YYJCPL Logo" class="h-24 w-24 object-contain" onerror="this.style.display='none'">
+                </div>
+            </div>
+        </div>
+
+        <div class="text-center mb-8">
+            <h2 class="text-3xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-purple-600 to-pink-600 mb-2">
+                Salary Structure Report
+            </h2>
+            <p class="text-gray-600 text-lg">November & December 2024</p>
+        </div>
+
+        <button onclick="window.print()" class="no-print mb-6 flex items-center gap-2 bg-gradient-to-r from-purple-600 to-pink-600 text-white px-6 py-3 rounded-lg hover:from-purple-700 hover:to-pink-700 shadow-lg transform hover:scale-105 transition">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+            </svg>
+            Download PDF
+        </button>
+
+        <!-- November Salary Table -->
+        <div class="mb-10">
+            <h3 class="text-2xl font-bold text-white mb-4 bg-gradient-to-r from-blue-600 to-purple-600 p-4 rounded-lg shadow-lg">
+                📅 November 2024 Salary Structure
+            </h3>
+            <div class="overflow-x-auto shadow-lg rounded-lg">
+                <table class="w-full border-collapse">
+                    <thead>
+                        <tr class="bg-gradient-to-r from-blue-700 to-purple-700 text-white">
+                            <th class="border border-gray-300 p-3 text-left">Employee Name</th>
+                            <th class="border border-gray-300 p-3 text-right">CTC (₹)</th>
+                            <th class="border border-gray-300 p-3 text-right">In-Hand Salary (₹)</th>
+                            <th class="border border-gray-300 p-3 text-right">Paid (₹)</th>
+                            <th class="border border-gray-300 p-3 text-right">Pending (₹)</th>
+                            <th class="border border-gray-300 p-3 text-center">Payment Status</th>
+                        </tr>
+                    </thead>
+                    <tbody id="novemberTableBody"></tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- December Salary Table -->
+        <div class="mb-6">
+            <h3 class="text-2xl font-bold text-white mb-4 bg-gradient-to-r from-green-600 to-teal-600 p-4 rounded-lg shadow-lg">
+                📅 December 2024 Salary Structure
+            </h3>
+            <div class="overflow-x-auto shadow-lg rounded-lg">
+                <table class="w-full border-collapse">
+                    <thead>
+                        <tr class="bg-gradient-to-r from-green-700 to-teal-700 text-white">
+                            <th class="border border-gray-300 p-3 text-left">Employee Name</th>
+                            <th class="border border-gray-300 p-3 text-right">CTC (₹)</th>
+                            <th class="border border-gray-300 p-3 text-right">In-Hand Salary (₹)</th>
+                            <th class="border border-gray-300 p-3 text-right">Paid (₹)</th>
+                            <th class="border border-gray-300 p-3 text-right">Pending (₹)</th>
+                            <th class="border border-gray-300 p-3 text-center">Payment Status</th>
+                        </tr>
+                    </thead>
+                    <tbody id="decemberTableBody"></tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Summary Section -->
+        <div class="mt-8 p-6 bg-gradient-to-br from-purple-100 via-pink-100 to-red-100 rounded-xl shadow-lg border-2 border-purple-300">
+            <h3 class="text-2xl font-bold mb-6 text-purple-900">📊 Summary</h3>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div class="bg-white p-6 rounded-lg shadow-md border-l-4 border-blue-500">
+                    <p class="text-gray-600 mb-2 font-semibold">Total November Pending</p>
+                    <p class="text-3xl font-bold text-red-600" id="novPendingTotal">₹ 0</p>
+                </div>
+                <div class="bg-white p-6 rounded-lg shadow-md border-l-4 border-green-500">
+                    <p class="text-gray-600 mb-2 font-semibold">Total December Pending</p>
+                    <p class="text-3xl font-bold text-red-600" id="decPendingTotal">₹ 0</p>
+                </div>
+                <div class="bg-white p-6 rounded-lg shadow-md col-span-1 md:col-span-2 border-l-4 border-red-500">
+                    <p class="text-gray-600 mb-2 font-semibold">Total Outstanding Amount (Both Months)</p>
+                    <p class="text-4xl font-bold text-red-700" id="totalOutstanding">₹ 0</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="mt-8 text-center text-gray-500 text-sm border-t pt-6">
+            <p class="font-semibold" id="generatedDate"></p>
+            <p class="mt-2 text-purple-600">YO YO JOB CARE PRIVATE LIMITED, Jaipur</p>
+        </div>
     </div>
 
-    <form id="customerForm">
-      <!-- Consumer Details -->
-      <div class="form-section">
-        <div class="section-title"><i class="fas fa-user"></i> Consumer Details</div>
-        <div class="form-grid">
-          <div class="form-group"><label><i class="fas fa-user"></i> Name</label><input type="text" name="name" required /></div>
-          <div class="form-group"><label><i class="fas fa-envelope"></i> Email</label><input type="email" name="email" required /></div>
-          <div class="form-group"><label><i class="fas fa-phone"></i> Phone</label><input type="tel" name="phone" required /></div>
-          <div class="form-group full-width"><label><i class="fas fa-home"></i> Address</label><textarea name="address" rows="3" required></textarea></div>
-        </div>
-      </div>
+    <script>
+        // Employee Data
+        const employees = [
+            {
+                name: "Priyanka Sharma",
+                ctc: 25000,
+                inHand: 23263,
+                novPaid: 18263,
+                novPending: 5000,
+                novStatus: "Partially Paid",
+                decPaid: 0,
+                decPending: 23263,
+                decStatus: "Pending"
+            },
+            {
+                name: "Sandeep Verma",
+                ctc: 20000,
+                inHand: 18263,
+                novPaid: 10333,
+                novPending: 7930,
+                novStatus: "Partially Paid",
+                decPaid: 0,
+                decPending: 18263,
+                decStatus: "Pending"
+            },
+            {
+                name: "Abhishek Sejwal",
+                ctc: 20000,
+                inHand: 18263,
+                novPaid: 9000,
+                novPending: 9263,
+                novStatus: "Partially Paid",
+                decPaid: 0,
+                decPending: 18263,
+                decStatus: "Pending"
+            },
+            {
+                name: "Yashpal Surya",
+                ctc: 20000,
+                inHand: 18263,
+                novPaid: 0,
+                novPending: 18263,
+                novStatus: "Pending",
+                decPaid: 0,
+                decPending: 18263,
+                decStatus: "Pending"
+            },
+            {
+                name: "Kapil Besan",
+                ctc: 20000,
+                inHand: 18263,
+                novPaid: 0,
+                novPending: 18263,
+                novStatus: "Pending",
+                decPaid: 0,
+                decPending: 18263,
+                decStatus: "Pending"
+            }
+        ];
 
-      <!-- Consumer Queries -->
-      <div class="form-section">
-        <div class="section-title"><i class="fas fa-question-circle"></i> Consumer Queries</div>
-        <div class="form-grid">
-          <div class="form-group"><label><i class="fas fa-briefcase"></i> Required Profile</label><input type="text" name="profile" required /></div>
-          <div class="form-group"><label><i class="fas fa-map-marker-alt"></i> Location</label><input type="text" name="location" required /></div>
-          <div class="form-group"><label><i class="fas fa-rupee-sign"></i> Salary</label><input type="text" name="salary" placeholder="e.g. 5 LPA" required /></div>
-          <div class="form-group">
-            <label><i class="fas fa-graduation-cap"></i> Experience</label>
-            <select name="experience" required>
-              <option value="" disabled selected>Select Experience</option>
-              <option>Fresher</option>
-              <option>0-1 Year</option>
-              <option>1-3 Years</option>
-              <option>3-5 Years</option>
-              <option>5+ Years</option>
-            </select>
-          </div>
-          <div class="form-group full-width">
-            <label><i class="fas fa-file-upload"></i> Upload Resume</label>
-            <div class="file-input-wrapper">
-              <input type="file" id="resume" name="resume" accept=".pdf,.doc,.docx,image/*" />
-              <div class="file-input-button"><i class="fas fa-cloud-upload-alt"></i> Choose File</div>
-            </div>
-            <div class="file-name" id="fileName"></div>
-            <div id="filePreview" class="preview-container">
-              <img id="previewImg" src="" alt="Preview" />
-              <div id="fileIconPreview"></div>
-            </div>
-          </div>
-        </div>
-      </div>
+        // Function to format currency
+        function formatCurrency(amount) {
+            return amount.toLocaleString('en-IN');
+        }
 
-      <button type="submit" class="submit-btn" id="submitBtn">
-        Submit Form <span class="loader" id="loader"></span>
-      </button>
-    </form>
-  </div>
+        // Function to get status badge HTML
+        function getStatusBadge(status) {
+            if (status === "Paid") {
+                return '<span class="px-3 py-1 bg-green-100 text-green-800 rounded-full text-sm font-semibold">Paid</span>';
+            } else if (status === "Partially Paid") {
+                return '<span class="px-3 py-1 bg-yellow-100 text-yellow-800 rounded-full text-sm font-semibold">Partially Paid</span>';
+            } else {
+                return '<span class="px-3 py-1 bg-red-100 text-red-800 rounded-full text-sm font-semibold">Pending</span>';
+            }
+        }
 
-  <!-- PDF.js for PDF Preview -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/4.0.379/pdf.min.js"></script>
-  <script>
-    if (typeof pdfjsLib !== 'undefined') {
-      pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/4.0.379/pdf.worker.min.js';
-    }
-  </script>
+        // Populate November Table
+        function populateNovemberTable() {
+            const tbody = document.getElementById('novemberTableBody');
+            let totalPaid = 0;
+            let totalPending = 0;
+            
+            employees.forEach((emp, index) => {
+                const bgClass = index % 2 === 0 ? 'bg-blue-50' : 'bg-white';
+                totalPaid += emp.novPaid;
+                totalPending += emp.novPending;
+                
+                tbody.innerHTML += `
+                    <tr class="${bgClass}">
+                        <td class="border border-gray-300 p-3 font-medium text-gray-800">${emp.name}</td>
+                        <td class="border border-gray-300 p-3 text-right font-semibold">${formatCurrency(emp.ctc)}</td>
+                        <td class="border border-gray-300 p-3 text-right font-semibold text-purple-700">${formatCurrency(emp.inHand)}</td>
+                        <td class="border border-gray-300 p-3 text-right text-green-600 font-bold">${formatCurrency(emp.novPaid)}</td>
+                        <td class="border border-gray-300 p-3 text-right text-red-600 font-bold">${formatCurrency(emp.novPending)}</td>
+                        <td class="border border-gray-300 p-3 text-center">${getStatusBadge(emp.novStatus)}</td>
+                    </tr>
+                `;
+            });
+            
+            tbody.innerHTML += `
+                <tr class="bg-gradient-to-r from-blue-200 to-purple-200 font-bold text-lg">
+                    <td class="border border-gray-300 p-4" colspan="3">
+                        <span class="text-purple-900">TOTAL (November)</span>
+                    </td>
+                    <td class="border border-gray-300 p-4 text-right text-green-700">₹ ${formatCurrency(totalPaid)}</td>
+                    <td class="border border-gray-300 p-4 text-right text-red-700">₹ ${formatCurrency(totalPending)}</td>
+                    <td class="border border-gray-300 p-4"></td>
+                </tr>
+            `;
+            
+            return { totalPaid, totalPending };
+        }
 
-  <script>
-    /* ==================== EMAILJS + SWEETALERT2 ==================== */
+        // Populate December Table
+        function populateDecemberTable() {
+            const tbody = document.getElementById('decemberTableBody');
+            let totalPaid = 0;
+            let totalPending = 0;
+            
+            employees.forEach((emp, index) => {
+                const bgClass = index % 2 === 0 ? 'bg-green-50' : 'bg-white';
+                totalPaid += emp.decPaid;
+                totalPending += emp.decPending;
+                
+                tbody.innerHTML += `
+                    <tr class="${bgClass}">
+                        <td class="border border-gray-300 p-3 font-medium text-gray-800">${emp.name}</td>
+                        <td class="border border-gray-300 p-3 text-right font-semibold">${formatCurrency(emp.ctc)}</td>
+                        <td class="border border-gray-300 p-3 text-right font-semibold text-teal-700">${formatCurrency(emp.inHand)}</td>
+                        <td class="border border-gray-300 p-3 text-right text-green-600 font-bold">${formatCurrency(emp.decPaid)}</td>
+                        <td class="border border-gray-300 p-3 text-right text-red-600 font-bold">${formatCurrency(emp.decPending)}</td>
+                        <td class="border border-gray-300 p-3 text-center">${getStatusBadge(emp.decStatus)}</td>
+                    </tr>
+                `;
+            });
+            
+            tbody.innerHTML += `
+                <tr class="bg-gradient-to-r from-green-200 to-teal-200 font-bold text-lg">
+                    <td class="border border-gray-300 p-4" colspan="3">
+                        <span class="text-teal-900">TOTAL (December)</span>
+                    </td>
+                    <td class="border border-gray-300 p-4 text-right text-green-700">₹ ${formatCurrency(totalPaid)}</td>
+                    <td class="border border-gray-300 p-4 text-right text-red-700">₹ ${formatCurrency(totalPending)}</td>
+                    <td class="border border-gray-300 p-4"></td>
+                </tr>
+            `;
+            
+            return { totalPaid, totalPending };
+        }
 
-    // === REPLACE THESE 3 VALUES FROM EMAILJS DASHBOARD ===
-    const EMAILJS_USER_ID     = 'TEFuudTQ0a1O75GJb';        // e.g. user_abc123
-    const EMAILJS_SERVICE_ID  = 'service_p84q2b2';     // e.g. service_xyz
-    const EMAILJS_TEMPLATE_ID = 'template_5eifo6n';    // e.g. template_abc
-    // ======================================================
+        // Update Summary
+        function updateSummary(novTotal, decTotal) {
+            document.getElementById('novPendingTotal').textContent = '₹ ' + formatCurrency(novTotal.totalPending);
+            document.getElementById('decPendingTotal').textContent = '₹ ' + formatCurrency(decTotal.totalPending);
+            document.getElementById('totalOutstanding').textContent = '₹ ' + formatCurrency(novTotal.totalPending + decTotal.totalPending);
+        }
 
-    emailjs.init(EMAILJS_USER_ID);
+        // Set Generated Date
+        function setGeneratedDate() {
+            const options = { day: 'numeric', month: 'long', year: 'numeric' };
+            const date = new Date().toLocaleDateString('en-IN', options);
+            document.getElementById('generatedDate').textContent = 'Generated on ' + date;
+        }
 
-    const form             = document.getElementById('customerForm');
-    const fileInput        = document.getElementById('resume');
-    const fileNameDisplay  = document.getElementById('fileName');
-    const previewContainer = document.getElementById('filePreview');
-    const previewImg       = document.getElementById('previewImg');
-    const fileIconPreview  = document.getElementById('fileIconPreview');
-
-    // File Preview
-    fileInput.addEventListener('change', function () {
-      const file = this.files[0];
-      if (!file) { fileNameDisplay.textContent = ''; previewContainer.classList.remove('show'); return; }
-      fileNameDisplay.textContent = file.name;
-      previewImg.style.display = 'none';
-      fileIconPreview.innerHTML = ''; fileIconPreview.style.display = 'none';
-
-      const ext = file.name.split('.').pop().toLowerCase();
-      const type = file.type;
-
-      if (type.startsWith('image/')) {
-        const r = new FileReader();
-        r.onload = e => { previewImg.src = e.target.result; previewImg.style.display = 'block'; previewContainer.classList.add('show'); };
-        r.readAsDataURL(file);
-      }
-      else if (ext === 'pdf') {
-        const r = new FileReader();
-        r.onload = async e => {
-          try {
-            const pdf = await pdfjsLib.getDocument({data: new Uint8Array(e.target.result)}).promise;
-            const page = await pdf.getPage(1);
-            const vp = page.getViewport({scale: 1.4});
-            const canvas = document.createElement('canvas');
-            canvas.height = vp.height; canvas.width = vp.width;
-            await page.render({canvasContext: canvas.getContext('2d'), viewport: vp}).promise;
-            previewImg.src = canvas.toDataURL();
-            previewImg.style.display = 'block';
-            previewContainer.classList.add('show');
-          } catch (err) {
-            fileIconPreview.innerHTML = '<i class="fas fa-file-pdf" style="font-size:4rem;color:#e74c3c;"></i>';
-            fileIconPreview.style.display = 'block';
-            previewContainer.classList.add('show');
-          }
+        // Initialize
+        window.onload = function() {
+            const novTotal = populateNovemberTable();
+            const decTotal = populateDecemberTable();
+            updateSummary(novTotal, decTotal);
+            setGeneratedDate();
         };
-        r.readAsArrayBuffer(file);
-      }
-      else if (['doc','docx'].includes(ext)) {
-        fileIconPreview.innerHTML = '<i class="fas fa-file-word" style="font-size:4rem;color:#1e88e5;"></i>';
-        fileIconPreview.style.display = 'block';
-        previewContainer.classList.add('show');
-      }
-      else {
-        fileIconPreview.innerHTML = '<i class="fas fa-file" style="font-size:4rem;color:#95a5a6;"></i>';
-        fileIconPreview.style.display = 'block';
-        previewContainer.classList.add('show');
-      }
-    });
-
-    // Form Submit
-    form.addEventListener('submit', async function (e) {
-      e.preventDefault();
-      const btn = document.getElementById('submitBtn');
-      const loader = document.getElementById('loader');
-      btn.disabled = true;
-      loader.style.display = 'inline-block';
-      btn.innerHTML = 'Submitting...';
-
-      let valid = true;
-      this.querySelectorAll('[required]').forEach(f => {
-        if (!f.value.trim() && f !== fileInput) { f.style.borderColor = '#E63946'; valid = false; }
-        else f.style.borderColor = '#0077B6';
-      });
-
-      if (!valid) {
-        btn.disabled = false; loader.style.display = 'none'; btn.innerHTML = 'Submit Form';
-        Swal.fire({ icon: 'error', title: 'Missing Fields', text: 'Please fill all required fields.', confirmButtonColor: '#FF6B35' });
-        return;
-      }
-
-      const data = Object.fromEntries(new FormData(this));
-      const params = {
-        from_name: data.name,
-        from_email: data.email,
-        phone: data.phone,
-        address: data.address,
-        profile: data.profile,
-        location: data.location,
-        salary: data.salary,
-        experience: data.experience,
-        resume: fileInput.files[0]?.name || 'No file',
-        today: new Date().toLocaleDateString('en-IN')
-      };
-
-      try {
-        await emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, params);
-        Swal.fire({
-          icon: 'success',
-          title: 'Thank You!',
-          text: 'Your form has been submitted successfully!',
-          confirmButtonColor: '#FF6B35'
-        });
-        form.reset();
-        fileNameDisplay.textContent = '';
-        previewContainer.classList.remove('show');
-      } catch (err) {
-        console.error('EmailJS Error:', err);
-        Swal.fire({
-          icon: 'error',
-          title: 'Failed!',
-          text: 'Could not send email. Check EmailJS IDs or internet connection.',
-          confirmButtonColor: '#E63946'
-        });
-      } finally {
-        btn.disabled = false;
-        loader.style.display = 'none';
-        btn.innerHTML = 'Submit Form';
-      }
-    });
-  </script>
+    </script>
 </body>
 </html>

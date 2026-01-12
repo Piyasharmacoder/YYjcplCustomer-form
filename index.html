@@ -259,7 +259,7 @@ function renderTable(month, tableBodyId, rowColor) {
   });
   tbody.innerHTML += `
     <tr class="font-bold text-lg bg-gradient-to-r from-green-200 to-teal-200">
-      <td class="border p-4" colspan="5"><span class="text-teal-900">TOTAL</span>(${month})</td>
+      <td class="border p-4" colspan="5">TOTAL(${month})</td>
       <td class="border p-4 text-right text-green-700">₹ ${formatCurrency(totalPaid)}</td>
       <td class="border p-4 text-right text-red-700">₹ ${formatCurrency(totalPending)}</td>
       <td class="border p-4"></td>
